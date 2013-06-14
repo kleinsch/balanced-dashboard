@@ -27,7 +27,7 @@
                 </tfoot>
             {{/if}}
             <tbody>
-                {{#each customer in customers}}
+                {{#each customer in accounts}}
                     <tr {{action customerSelected customer}}>
                         <td class="span3 date">
                             <time {{bindAttr datetime="customer.created_at"}}" data-format="%b %d" {{bindAttr title="customer.created_at"}}>{{ customer.human_readable_created_at }}</time>
@@ -42,7 +42,7 @@
                 {{else}}
                     <tr>
                         <td colspan="3" class="no-results">
-                            {{# unless customers.isLoaded }}
+                            {{# unless accounts.isLoaded }}
                                 Loading...
                             {{else}}
                                 No results

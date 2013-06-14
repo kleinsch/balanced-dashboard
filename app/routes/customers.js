@@ -6,7 +6,7 @@ Balanced.CustomersIndexRoute = Balanced.AuthRoute.extend({
 
     events: {
       customerSelected: function(customer) {
-        this.transitionTo("customers.customer", customer);
+      	window.location.hash = '#' + Balanced.Utils.uriToDashboardFragment(customer.get('uri'));
       }
     }
 });

@@ -14,6 +14,7 @@ Balanced.Marketplace = Balanced.MarketplaceLite.extend({
     owner_customer: Balanced.Model.belongsTo('Balanced.Customer', 'owner_customer_json', {embedded: true}),
 
     customers: Balanced.Model.hasMany('Balanced.Customer', 'customers_uri'),
+    accounts: Balanced.Model.hasMany('Balanced.Account', 'accounts_uri'),
 
     callbacks_uri: function () {
         return this.get('uri') + '/callbacks';
