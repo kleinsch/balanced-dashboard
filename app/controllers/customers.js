@@ -2,6 +2,6 @@ Balanced.CustomersIndexController = Balanced.ObjectController.extend(Balanced.Do
     needs: ['marketplace'],
 
     loadMore: function() {
-        this.get('content').get('customers').loadNextPage();
+        this.get('content').get('accounts').loadNextPage();
     }
 });
