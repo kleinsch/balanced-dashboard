@@ -32,10 +32,7 @@ Balanced.NET = (function () {
             // POSTing to / will return a csrf token
             $.ajax({
                 type: 'POST',
-                url: Ember.ENV.BALANCED.AUTH,
-                xhrFields: {
-                    withCredentials: true
-                }
+                url: Ember.ENV.BALANCED.AUTH
             }).success(function (r) {
                 csrfToken = r.csrf;
                 $.cookie(Balanced.COOKIE.CSRF_TOKEN, csrfToken);
