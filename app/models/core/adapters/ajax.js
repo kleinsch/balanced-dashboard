@@ -49,13 +49,34 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
 
     ajax: function (url, type, settings) {
         settings = settings || {};
+
         // HACK this goes away when we have oAuth
-        settings.url = this._appendMarketplaceAuthParam(url);
+        if(url && url.indexOf(ENV.BALANCED.AUTH) === -1) {
+            var marketplaceId = Balanced.currentMarketplace ? Balanced.currentMarketplace.get('id') : null;
+
+            var matches = /\/v.+\/marketplaces\/([^/]+)/.exec(url);
+            if(matches) {
+                marketplaceId = matches[1];
+            }
+
+            var userMarketplace = Balanced.Auth.get('user').user_marketplace_for_uri(Balanced.Marketplace.constructUri(marketplaceId));
+
+            if(!userMarketplace || !userMarketplace.get('secret')) {
+                console.log("Couldn't find user marketplace for ID " + marketplaceId + " (url: " + url + ")");
+            } else {
+                settings.username = userMarketplace.get('secret');
+                settings.password = "";
+            }
+        } else {
+            console.log("SKIPPING AUTH HEADERS, USING AUTH PROXY: " + url);
+            settings.xhrFields = {
+                withCredentials: true
+            };
+        }
+
+        settings.url = url;
         settings.type = type;
         settings.context = this;
-        settings.xhrFields = {
-            withCredentials: true
-        };
         return Balanced.Auth.send(settings);
     },
 
@@ -69,13 +90,5 @@ Balanced.AjaxAdapter = Balanced.BaseAdapter.extend({
             host = this.hostsByType[type];
         }
         return host;
-    },
-
-    _appendMarketplaceAuthParam: function (uri) {
-        if (uri && uri.indexOf('/users/') === -1 && !( /\/v.+\/marketplaces\/.+/.test(uri) ) &&
-            Balanced.currentMarketplace) {
-            uri = Balanced.Utils.updateQueryStringParameter(uri, 'marketplace', Balanced.currentMarketplace.get('id'));
-        }
-        return uri;
     }
 });

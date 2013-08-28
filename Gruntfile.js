@@ -287,7 +287,7 @@ module.exports = function (grunt) {
                     jsDashboardFile: "js/dashboard-dev.js",
                     env: "{\
                         BALANCED: {\
-                            API: 'https://auth.balancedpayments.com',\
+                            API: 'https://api.balancedpayments.com',\
                             AUTH: 'https://auth.balancedpayments.com',\
                             WWW: 'https://www.balancedpayments.com',\
                             DOCS: 'https://docs.balancedpayments.com',\
@@ -307,7 +307,7 @@ module.exports = function (grunt) {
                     jsDashboardFile: "js/dashboard-prod.min.js",
                     env: "{\
                         BALANCED: {\
-                            API: 'https://auth.balancedpayments.com',\
+                            API: 'https://api.balancedpayments.com',\
                             AUTH: 'https://auth.balancedpayments.com',\
                             WWW: 'https://www.balancedpayments.com',\
                             DOCS: 'https://docs.balancedpayments.com',\
