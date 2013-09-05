@@ -1,9 +1,3 @@
-// This is pulled out into a separate file so the Grunt neuter task doesn't 
-// add templating code to it while building
-
-window.balancedSetupFunctions = [];
-
-
 function hackTheLogin () {
     if (window.TESTING) {
         return;
@@ -55,35 +49,25 @@ function hackTheLogin () {
     }).error(fin);
 }
 
-/*
- Creates a new instance of an Ember application and
- specifies what HTML element inside index.html Ember
- should manage for you.
- */
-window.setupBalanced = function (divSelector) {
+// default to #balanced-app if not specified
+var divSelector = window.emberAppSelector || '#balanced-app';
+window.Balanced = Ember.Application.create({
+    rootElement: divSelector,
+    LOG_TRANSITIONS: true,
 
-    // default to #balanced-app if not specified
-    divSelector = divSelector || '#balanced-app';
-    window.Balanced = Ember.Application.create({
-        rootElement: divSelector,
-        LOG_TRANSITIONS: true,
+    customEvents: {
+        // key is the jquery event, value is the name used in views
+        changeDate: 'changeDate'
+    }
+});
 
-        customEvents: {
-            // key is the jquery event, value is the name used in views
-            changeDate: 'changeDate'
-        }
-    });
+hackTheLogin();
 
-    hackTheLogin();
-
-    window.Balanced.onLoad = function () {
-        //  initialize anything that needs to be done on application load
-        Balanced.Helpers.init();
-        Balanced.NET.init();
-        Balanced.Analytics.init(Ember.ENV.BALANCED);
-    };
-
-    _.each(window.balancedSetupFunctions, function (setupFunction) {
-        setupFunction();
-    });
+window.Balanced.onLoad = function () {
+    //  initialize anything that needs to be done on application load
+    Balanced.Helpers.init();
+    Balanced.NET.init();
+    Balanced.Analytics.init(Ember.ENV.BALANCED);
 };
+
+$(document).ready(window.Balanced.onLoad);

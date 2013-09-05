@@ -1,3 +1,5 @@
+require('app/app_setup');
+
 /*
  this file is generated as part of the build process.
  If you haven't run that yet, you won't see it.
