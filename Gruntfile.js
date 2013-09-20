@@ -15,18 +15,14 @@ module.exports = function (grunt) {
 		neuter: {
 			dev: {
 				options: {
-					includeSourceURL: true,
-					template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
+					includeSourceURL: true
 				},
 				src: ['app/dashboard.js'],
-				dest: 'build/js/includes-dev.js'
+				dest: 'build/js/dashboard-dev.js'
 			},
 			prod: {
-				options: {
-					template: "window.balancedSetupFunctions.push(function() { {%= src %} ; });"
-				},
 				src: ['app/dashboard.js'],
-				dest: 'build/js/includes-prod.js'
+				dest: 'build/js/dashboard-prod.js'
 			},
 			testfixtures: {
 				options: {
@@ -40,20 +36,6 @@ module.exports = function (grunt) {
 		concat: {
 			options: {
 				separator: ';\n'
-			},
-			dashboarddev: {
-				src: [
-					'app/app_setup.js',
-					'build/js/includes-dev.js'
-				],
-				dest: 'build/js/dashboard-dev.js'
-			},
-			dashboardprod: {
-				src: [
-					'app/app_setup.js',
-					'build/js/includes-prod.js'
-				],
-				dest: 'build/js/dashboard-prod.js'
 			},
 			libdev: {
 				src: [
@@ -254,6 +236,10 @@ module.exports = function (grunt) {
 					{
 						src: 'test/support/testconfig.js',
 						dest: 'build/test/js/testconfig.js'
+					},
+					{
+						src: 'test/support/testpreconfig.js',
+						dest: 'build/test/js/testpreconfig.js'
 					},
 					{
 						src: 'test/support/testenv.js',
@@ -615,7 +601,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('_prodBuildSteps', ['img', '_uglify', 'hashres', 'copy:dist']);
 
 	grunt.registerTask('_buildJS', ['emberTemplates', '_buildJSAfterTemplates']);
-	grunt.registerTask('_buildJSAfterTemplates', ['neuter:dev', 'neuter:prod', 'concat:dashboarddev', 'concat:dashboardprod', 'concat:libdev', 'concat:libprod']);
+	grunt.registerTask('_buildJSAfterTemplates', ['neuter:dev', 'neuter:prod', 'concat:libdev', 'concat:libprod']);
 	grunt.registerTask('_buildTests', ['neuter:testfixtures', 'concat:tests', 'copy:test']);
 	grunt.registerTask('_buildCSS', ['less']);
 	grunt.registerTask('_buildImages', ['copy:images']);

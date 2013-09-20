@@ -7,7 +7,7 @@ module('Balanced.Model', {
 			}.property('basic_field')
 		});
 
-		Balanced.Adapter.addFixtures([
+		Balanced.Adapter.addTestFixtures([
 			{
 				uri: '/v1/testobjects/1',
 				basic_field: 123

@@ -8,26 +8,29 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 	asyncCallbacks: false,
 
 	initAdapter: function () {
+		// global fixture data
 		this.dataMap = {};
+		// per-test fixture data
+		this.testDataMap = {};
 
-		this.fetches = [];
+		// TODO - all tests should be using sinon spies + stubs, take this out
 		this.creates = [];
-		this.updates = [];
-		this.deletes = [];
+	},
+
+	reset: function() {
+		this.testDataMap = {};
+		this.set('asyncCallbacks', false);
+		this.creates = [];
 	},
 
 	get: function (type, uri, success, error) {
 		this._checkParams(type, uri);
 
-		var json = this.dataMap[uri];
+		var json = this.testDataMap[uri] || this.dataMap[uri];
 
 		if (!json) {
 			Ember.Logger.warn("Couldn't retrieve fixture for [" + type + "].\n\tURI =>  " + uri);
 		}
-		this.fetches.push({
-			type: type,
-			uri: uri
-		});
 		// cloning in case people modify this later, don't want to screw up our fixtures!
 		var clonedJson = this._cloneObject(json);
 
@@ -55,12 +58,6 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 	update: function (type, uri, data, success, error) {
 		this._checkParams(type, uri);
 
-		this.updates.push({
-			type: type,
-			uri: uri,
-			data: data
-		});
-
 		// cloning to prevent weird data errors
 		var clonedJson = this._cloneObject(data);
 		this._executeCallback(function() {
@@ -71,11 +68,6 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 	delete: function (type, uri, success, error) {
 		this._checkParams(type, uri);
 
-		this.deletes.push({
-			type: type,
-			uri: uri
-		});
-
 		this._executeCallback(function() {
 			success();
 		});
@@ -85,8 +77,16 @@ Balanced.FixtureAdapter = Balanced.BaseAdapter.extend({
 		this.dataMap[json.uri] = json;
 	},
 
+	addTestFixture: function (json) {
+		this.testDataMap[json.uri] = json;
+	},
+
 	addFixtures: function (jsonArray) {
 		_.each(jsonArray, _.bind(this.addFixture, this));
+	},
+
+	addTestFixtures: function (jsonArray) {
+		_.each(jsonArray, _.bind(this.addTestFixture, this));
 	},
 
 	_executeCallback: function(callbackExecutionFunction) {

@@ -8,7 +8,7 @@ module('Balanced.Model.Associations', {
 		});
 		Balanced.TypeMappings.addTypeMapping('test', 'Balanced.TestModel');
 
-		Balanced.Adapter.addFixtures([
+		Balanced.Adapter.addTestFixtures([
 			{
 				uri: '/v1/testobjects/1',
 				_type: 'test',
@@ -41,7 +41,7 @@ test('belongsTo associations work for embedded objects', function (assert) {
 		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			my_belongs_to_field: {
@@ -62,7 +62,7 @@ test('belongsTo associations work for URIs', function (assert) {
 		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			_uris: {
@@ -89,7 +89,7 @@ test('hasMany associations work for embedded objects', function (assert) {
 		my_has_many_field: Balanced.Model.hasMany('my_embedded_field', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			my_embedded_field: [
@@ -115,7 +115,7 @@ test('hasMany associations work for URIs', function (assert) {
 		my_has_many_field: Balanced.Model.hasMany('my_embedded_field', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			my_embedded_field_uri: '/v1/embedded/1'
@@ -146,7 +146,7 @@ test("belongsTo associations don't share state", function (assert) {
 		my_other_belongs_to_field: Balanced.Model.belongsTo('my_other_field')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testobj/123',
 			_uris: {
@@ -188,7 +188,7 @@ test('Embedded belongsTo associations work with fields of the same name', functi
 		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			my_belongs_to_field: {
@@ -213,7 +213,7 @@ test("hasMany associations don't share state", function (assert) {
 		my_other_has_many_field: Balanced.Model.hasMany('my_other_field', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testobj/123',
 			my_field_uri: '/v1/testobjects/1',
@@ -266,7 +266,7 @@ test('Embedded hasMany associations work with fields of the same name', function
 		my_has_many_field: Balanced.Model.hasMany('my_has_many_field', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			my_has_many_field: [
@@ -303,7 +303,7 @@ test("embedded belongsTo returns null if the property was null", function (asser
 		my_belongs_to_field1: Balanced.Model.belongsTo('my_first_obj')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testobjects/0',
 			my_first_obj: null
@@ -320,7 +320,7 @@ test("embedded belongsTo returns undefined if the property was not present", fun
 		my_belongs_to_field1: Balanced.Model.belongsTo('my_first_obj')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testobjects/0'
 		}
@@ -352,7 +352,7 @@ test("belongsTo associations have promises that resolve when they're loaded", fu
 		my_belongs_to_field: Balanced.Model.belongsTo('my_field')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			_uris: {
 				my_field_uri: {
@@ -408,7 +408,7 @@ test("hasMany associations have promises that resolve when they're loaded", func
 		my_has_many_field: Balanced.Model.hasMany('my_field', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			my_field_uri: '/v1/testobjects/1'
@@ -443,7 +443,7 @@ test('hasMany association promises resolve async', function (assert) {
 		my_has_many_field: Balanced.Model.hasMany('my_field_uri', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			my_field_uri: '/v1/testobjects/1hasManyResolveAsync'
@@ -473,7 +473,7 @@ test('hasMany creates correct types for polymorphic associations', function (ass
 		my_has_many_field: Balanced.Model.hasMany('my_field', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testobjects/10',
 			my_field_uri: '/v1/testobjects/1'
@@ -512,7 +512,7 @@ test('belongsTo creates correct types for embedded polymorphic associations', fu
 		my_belongs_to_field2: Balanced.Model.belongsTo('my_second_obj')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testobjects/0',
 			my_first_obj: {
@@ -551,7 +551,7 @@ test('hasMany pagination works', function (assert) {
 		my_has_many_field: Balanced.Model.hasMany('my_field', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testobjects/10',
 			my_field_uri: '/v1/testobjects/1'
@@ -623,7 +623,7 @@ test('hasMany collection can be reloaded', function (assert) {
 		transactions: Balanced.Model.hasMany('transactions', 'Balanced.TestModel')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/transactions',
 			transactions_uri: '/v1/transactions',
@@ -656,7 +656,7 @@ test('hasMany URIs can be specified in the model object, not just the JSON', fun
 		my_embedded_field_uri: '/v1/embedded/1'
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2'
 		},
@@ -685,7 +685,7 @@ test('belongsTo URI associations that are missing the metadata fetch to determin
 		my_belongs_to_field: Balanced.Model.belongsTo('my_belongs_to_field')
 	});
 
-	Balanced.Adapter.addFixtures([
+	Balanced.Adapter.addTestFixtures([
 		{
 			uri: '/v1/testmodel2s/2',
 			my_belongs_to_field_uri: '/v1/belongs_to_fields/1'

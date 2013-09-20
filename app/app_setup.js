@@ -1,37 +1,21 @@
-// This is pulled out into a separate file so the Grunt neuter task doesn't
-// add templating code to it while building
+// default to #balanced-app if not specified
+var divSelector = window.emberAppSelector || '#balanced-app';
 
-window.balancedSetupFunctions = [];
+ENV.HELPER_PARAM_LOOKUPS = true;
+window.Balanced = Ember.Application.create({
+	rootElement: divSelector,
+	LOG_TRANSITIONS: true,
 
-/*
-Creates a new instance of an Ember application and
-specifies what HTML element inside index.html Ember
-should manage for you.
-*/
-window.setupBalanced = function (divSelector) {
+	customEvents: {
+		// key is the jquery event, value is the name used in views
+		changeDate: 'changeDate'
+	}
+});
 
-	// default to #balanced-app if not specified
-	divSelector = divSelector || '#balanced-app';
-	ENV.HELPER_PARAM_LOOKUPS = true;
-	window.Balanced = Ember.Application.create({
-		rootElement: divSelector,
-		LOG_TRANSITIONS: true,
+$(document).ready(function () {
+	//  initialize anything that needs to be done on application load
+	Balanced.Analytics.init(Ember.ENV.BALANCED);
 
-		customEvents: {
-			// key is the jquery event, value is the name used in views
-			changeDate: 'changeDate'
-		}
-	});
-
-	window.Balanced.onLoad = function () {
-		//  initialize anything that needs to be done on application load
-		Balanced.Analytics.init(Ember.ENV.BALANCED);
-
-		// Configure modal parent selector
-		$.fn.modal.defaults.manager = divSelector;
-	};
-
-	_.each(window.balancedSetupFunctions, function (setupFunction) {
-		setupFunction();
-	});
-};
+	// Configure modal parent selector
+	$.fn.modal.defaults.manager = divSelector;
+});

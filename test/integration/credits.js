@@ -38,6 +38,7 @@ test('admins can reverse credit regardless of marketplace settings', function (a
 
 test('can edit credit', function (assert) {
 	var spy = sinon.spy(Balanced.Adapter, "update");
+	var spy2 = sinon.spy(Balanced.Adapter, "create");
 
 	visit(creditRoutePath)
 	.click('.credit .transaction-info a.edit')
